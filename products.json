@@ -1,0 +1,8 @@
+[
+{
+"title": "おすすめ商品サンプル",
+"description": "これは動作確認用の商品です。実際に紹介したい商品に変更してください。",
+"affiliate_url": "https://example.com/",
+"enabled": false
+}
+]
