@@ -8,6 +8,9 @@ ROOT = Path(__file__).parent
 DATA_FILE = ROOT / "products.json"
 OUTPUT_DIR = ROOT / "public"
 OUTPUT_FILE = OUTPUT_DIR / "index.html"
+SITEMAP_FILE = OUTPUT_DIR / "sitemap.xml"
+
+SITE_URL = "https://suzukichounan.github.io/auto-recommend-site-/"
 
 
 def esc(value):
@@ -40,38 +43,28 @@ def main():
         check_points = selected.get("check_points", [])
 
         recommended_html = "".join(
-            f"<li>{esc(item)}</li>"
-            for item in recommended_for
+            f"<li>{esc(item)}</li>" for item in recommended_for
         )
-
         check_html = "".join(
-            f"<li>{esc(item)}</li>"
-            for item in check_points
+            f"<li>{esc(item)}</li>" for item in check_points
         )
 
         content = f"""
         <article class="product">
           <p class="category">今回のおすすめ</p>
           <h2>{product_title}</h2>
-
           <h3>どんな商品・サービス？</h3>
           <p>{description}</p>
-
           <h3>こんな人におすすめ</h3>
           <ul>{recommended_html}</ul>
-
           <h3>購入前に確認したいこと</h3>
           <ul>{check_html}</ul>
-
           <p class="note">
             価格・送料・在庫・配送日などは、
             販売元のページで確認してください。
           </p>
-
-          <a class="button"
-             href="{url}"
-             rel="nofollow sponsored noopener"
-             target="_blank">
+          <a class="button" href="{url}"
+             rel="nofollow sponsored noopener" target="_blank">
             商品の詳細を確認する →
           </a>
         </article>
@@ -94,7 +87,6 @@ def main():
 <meta name="description" content="暮らしや趣味に役立つ商品を、選ぶときのポイントと一緒に紹介します。">
 <style>
 * {{ box-sizing: border-box; }}
-
 body {{
     font-family: sans-serif;
     line-height: 1.9;
@@ -102,13 +94,11 @@ body {{
     background: #f6f7f9;
     color: #292929;
 }}
-
 main {{
     max-width: 760px;
     margin: 0 auto;
     padding: 18px 14px 32px;
 }}
-
 .pr-notice {{
     background: #fff3cd;
     border: 1px solid #ead28a;
@@ -117,7 +107,6 @@ main {{
     font-size: 13px;
     margin-bottom: 16px;
 }}
-
 header, .product {{
     background: #fff;
     padding: 22px;
@@ -125,46 +114,23 @@ header, .product {{
     margin-bottom: 18px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }}
-
-header h1 {{
-    font-size: 26px;
-    margin: 0;
-}}
-
-header p {{
-    margin-bottom: 0;
-    color: #555;
-}}
-
-.category {{
-    color: #1769aa;
-    font-size: 13px;
-    font-weight: bold;
-}}
-
-.product h2 {{
-    font-size: 22px;
-    line-height: 1.5;
-}}
-
+header h1 {{ font-size: 26px; margin: 0; }}
+header p {{ margin-bottom: 0; color: #555; }}
+.category {{ color: #1769aa; font-size: 13px; font-weight: bold; }}
+.product h2 {{ font-size: 22px; line-height: 1.5; }}
 .product h3 {{
     font-size: 17px;
     margin-top: 26px;
     border-left: 4px solid #1769aa;
     padding-left: 10px;
 }}
-
-.product li {{
-    margin-bottom: 7px;
-}}
-
+.product li {{ margin-bottom: 7px; }}
 .note {{
     background: #f3f5f7;
     padding: 12px;
     border-radius: 8px;
     font-size: 13px;
 }}
-
 .button {{
     display: block;
     text-align: center;
@@ -176,29 +142,11 @@ header p {{
     font-weight: bold;
     margin-top: 22px;
 }}
-
-.button:hover {{
-    opacity: 0.9;
-}}
-
-footer {{
-    color: #666;
-    font-size: 12px;
-    padding: 8px;
-}}
-
+footer {{ color: #666; font-size: 12px; padding: 8px; }}
 @media (max-width: 480px) {{
-    header, .product {{
-        padding: 18px;
-    }}
-
-    header h1 {{
-        font-size: 23px;
-    }}
-
-    .product h2 {{
-        font-size: 20px;
-    }}
+    header, .product {{ padding: 18px; }}
+    header h1 {{ font-size: 23px; }}
+    .product h2 {{ font-size: 20px; }}
 }}
 </style>
 </head>
@@ -207,14 +155,11 @@ footer {{
   <div class="pr-notice">
     <strong>PR：</strong>当サイトはアフィリエイト広告を利用しています。
   </div>
-
   <header>
     <h1>{title}</h1>
     <p>商品選びの参考になる情報をお届けします。</p>
   </header>
-
   {content}
-
   <footer>
     <p>※当サイトはアフィリエイト広告を利用しています。</p>
     <p>商品の価格・在庫・送料・詳細は販売元のページでご確認ください。</p>
@@ -226,7 +171,19 @@ footer {{
 
     OUTPUT_DIR.mkdir(exist_ok=True)
     OUTPUT_FILE.write_text(page, encoding="utf-8")
+
+    sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{SITE_URL}</loc>
+    <lastmod>{date.today().isoformat()}</lastmod>
+  </url>
+</urlset>
+"""
+    SITEMAP_FILE.write_text(sitemap, encoding="utf-8")
+
     print(f"サイトを生成しました: {OUTPUT_FILE}")
+    print(f"サイトマップを生成しました: {SITEMAP_FILE}")
 
 
 if __name__ == "__main__":
