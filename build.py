@@ -171,6 +171,11 @@ footer {{ color: #666; font-size: 12px; padding: 8px; }}
 
     OUTPUT_DIR.mkdir(exist_ok=True)
     OUTPUT_FILE.write_text(page, encoding="utf-8")
+    ROBOTS_FILE = OUTPUT_DIR / "robots.txt"
+    ROBOTS_FILE.write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}sitemap.xml\n",
+        encoding="utf-8"
+    )
 
     sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
