@@ -1,1 +1,209 @@
-[]
+[
+  {
+    "note": "2026年10月3日より、テレビ放送終了後に各サービスで順次配信。",
+    "season": "2026年秋",
+    "service_urls": {
+      "u-next": "https://www.video.unext.jp/title/SID0316422"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり"
+    },
+    "slug": "kusuriya-no-hitorigoto-3",
+    "sources": [
+      "https://kusuriyanohitorigoto.jp/season3/onair/",
+      "https://tv.dmm.com/vod/anime/calendar/fall/"
+    ],
+    "title": "薬屋のひとりごと 第3期"
+  },
+  {
+    "note": "U-NEXTなどでは10月4日から先行配信。DMM TV・dアニメストアは10月8日正午から見放題配信。",
+    "season": "2026年秋",
+    "service_urls": {
+      "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=29275",
+      "u-next": "https://www.video.unext.jp/title/SID0316402"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり（先行配信）"
+    },
+    "slug": "black-clover-2nd-season",
+    "sources": [
+      "https://www.bclover.jp/onair/"
+    ],
+    "title": "ブラッククローバー 2nd Season"
+  },
+  {
+    "note": "2026年10月4日より、放送直後の毎週日曜17時から各サービスで順次配信。",
+    "season": "2026年秋",
+    "service_urls": {
+      "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=29208",
+      "u-next": "https://www.video.unext.jp/title/SID0316438"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり"
+    },
+    "slug": "ao-no-hako-2",
+    "sources": [
+      "https://aonohako-anime.com/"
+    ],
+    "title": "アオのハコ Season2"
+  },
+  {
+    "note": "U-NEXTは放送終了後30分の最速配信。DMM TV・dアニメストアは毎週木曜0時15分から順次配信。",
+    "season": "2026年秋",
+    "service_urls": {
+      "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=29250",
+      "u-next": "https://www.video.unext.jp/title/SID0316457"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり（最速配信）"
+    },
+    "slug": "dragon-ball-super-beerus",
+    "sources": [
+      "https://dragonball-super.com/",
+      "https://dragon-ball-official.com/news/01_4425.html"
+    ],
+    "title": "ドラゴンボール超 ビルス"
+  },
+  {
+    "note": "2026年10月8日より、毎週木曜0時15分から各サービスで順次配信。",
+    "season": "2026年秋",
+    "service_urls": {
+      "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=29212",
+      "u-next": "https://www.video.unext.jp/title/SID0316437"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり"
+    },
+    "slug": "magic-knight-rayearth-2026",
+    "sources": [
+      "https://rayearth-anime.com/onair/"
+    ],
+    "title": "魔法騎士レイアース（2026）"
+  },
+  {
+    "note": "dアニメストアとU-NEXTは放送終了直後の金曜24時30分から最速配信。DMM TVは月曜24時30分から順次配信。",
+    "season": "2026年秋",
+    "service_urls": {
+      "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=29282",
+      "u-next": "https://www.video.unext.jp/title/SID0316412"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり（最速配信）",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり（最速配信）"
+    },
+    "slug": "tougen-anki-2",
+    "sources": [
+      "https://tougenanki-anime.com/"
+    ],
+    "title": "桃源暗鬼 第二期 ～日光・華厳の滝編～"
+  },
+  {
+    "note": "U-NEXTは毎週日曜23時から最速配信。DMM TV・dアニメストアは毎週木曜19時30分から順次配信。",
+    "season": "2026年秋",
+    "service_urls": {},
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり（最速配信）"
+    },
+    "slug": "aoashi-2",
+    "sources": [
+      "https://eeo.today/media/2026/10/07/400395/ （公式発表の作品情報・配信情報）"
+    ],
+    "title": "アオアシ Season2"
+  },
+  {
+    "note": "Season 1からThe Final Season 完結編まで、シリーズ全作が見放題対象です。",
+    "season": "歴代（2013年〜）",
+    "service_urls": {
+      "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=10811",
+      "u-next": "https://www.video.unext.jp/title/SID0002648"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり"
+    },
+    "slug": "shingeki-no-kyojin",
+    "sources": [
+      "https://prtimes.jp/main/html/rd/p/000000058.000122725.html",
+      "https://shingeki.tv/final/onair/"
+    ],
+    "title": "進撃の巨人"
+  },
+  {
+    "note": "竈門炭治郎 立志編から柱稽古編まで、テレビアニメ全5編が見放題対象です。",
+    "season": "歴代（2019年〜）",
+    "service_urls": {
+      "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=22675",
+      "u-next": "https://www.video.unext.jp/title/SID0040886"
+    },
+    "services": [
+      "dmm-tv",
+      "d-anime-store",
+      "u-next"
+    ],
+    "services_status": {
+      "d-anime-store": "見放題あり",
+      "dmm-tv": "見放題あり",
+      "u-next": "見放題あり"
+    },
+    "slug": "kimetsu-no-yaiba",
+    "sources": [
+      "https://kimetsu.com/anime/streaming/",
+      "https://prtimes.jp/main/html/rd/p/000000340.000122725.html"
+    ],
+    "title": "鬼滅の刃"
+  }
+]
