@@ -9,7 +9,7 @@ WORKS_FILE = ROOT / "works.json"
 OUTPUT_DIR = ROOT / "public"
 
 SITE_URL = "https://suzukichounan.github.io/auto-recommend-site-/"
-SITE_NAME = "アニメ配信くらべ帖"
+SITE_NAME = "サブスク多すぎて選べないからアニメ特化で見る時用のメモ"
 SITE_TAGLINE = "アニメ見放題サービスの料金・作品数・無料期間を事実データで比較します。"
 GSV_META = "WrZyRp8m3nz5I-GorXWoi-pEZGwUzyVIQ-wghxEcWSU"
 DATA_AS_OF = "2026年11月4日時点"  # services.json の調査日
