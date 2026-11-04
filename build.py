@@ -14,106 +14,193 @@ SITE_TAGLINE = "アニメ見放題サービスの料金・作品数・無料期�
 GSV_META = "WrZyRp8m3nz5I-GorXWoi-pEZGwUzyVIQ-wghxEcWSU"
 DATA_AS_OF = "2026年11月4日時点"  # services.json の調査日
 
+# デザイン: E案「ライトポップ」（白基調＋コーラル×オレンジのグラデーション、
+# 丸角カード、ピル型バッジ）。design-mockups/v2/design-e-light-pop.html が正。
 CSS = """
+:root {
+    --bg: #fff9f4; --card: #ffffff; --ink: #2b2320; --sub: #756a63;
+    --coral: #ff5a3c; --coral-dark: #d63d22; --orange: #ff9f1a;
+    --teal: #0e9594; --purple: #7c5cd6; --line: #ffe1d3;
+    --sans: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", sans-serif;
+}
 * { box-sizing: border-box; }
 body {
-    font-family: sans-serif;
-    line-height: 1.9;
+    font-family: var(--sans);
+    font-size: 15.5px;
+    line-height: 1.85;
     margin: 0;
-    background: #f6f7f9;
-    color: #292929;
+    background: var(--bg);
+    color: var(--ink);
 }
-main {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 18px 14px 32px;
+a { color: var(--coral-dark); }
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+
+/* ---------- PRバー（全ページ冒頭） ---------- */
+.pr-bar {
+    background: var(--ink); color: #ffe9df; font-size: 12px;
+    text-align: center; padding: 8px 16px; letter-spacing: .05em;
 }
-.pr-notice {
-    background: #fff3cd;
-    border: 1px solid #ead28a;
-    border-radius: 8px;
-    padding: 9px 12px;
-    font-size: 13px;
-    margin-bottom: 16px;
+
+/* ---------- ヒーロー ---------- */
+.hero {
+    margin-top: 28px;
+    background: linear-gradient(120deg, #ff5a3c, #ff8a3c);
+    border-radius: 28px; padding: 36px 32px 32px; color: #fff;
+    box-shadow: 0 12px 28px rgba(255,90,60,.28);
 }
-header, .card {
-    background: #fff;
-    padding: 22px;
-    border-radius: 14px;
+.hero-chip {
+    display: inline-block; background: #fff; color: var(--coral-dark);
+    font-size: 12px; font-weight: 800; padding: 4px 14px;
+    border-radius: 999px; letter-spacing: .08em;
+}
+.hero h1 { font-size: 34px; font-weight: 900; letter-spacing: .06em; margin: 14px 0 0; line-height: 1.35; }
+.hero p { margin: 10px 0 0; font-size: 15px; font-weight: 500; }
+.hero-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.hero-stats span {
+    background: rgba(255,255,255,.22); border: 2px solid rgba(255,255,255,.55);
+    padding: 5px 14px; border-radius: 999px; font-size: 13px; font-weight: 700;
+}
+.hero.compact { padding: 22px 26px; border-radius: 24px; }
+.hero.compact h1 { font-size: 23px; margin: 0; }
+.hero.compact h1 a { color: #fff; text-decoration: none; }
+.hero.compact p { margin-top: 4px; font-size: 13.5px; }
+
+/* ---------- セクション見出し ---------- */
+section.sec { margin-top: 46px; }
+.sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.sec-bar { width: 10px; height: 30px; border-radius: 6px; background: var(--coral); flex: none; }
+.sec-bar.teal { background: var(--teal); }
+.sec-bar.orange { background: var(--orange); }
+.sec-bar.purple { background: var(--purple); }
+.sec-title { font-size: 23px; font-weight: 900; letter-spacing: .03em; margin: 0; }
+.sec-sub { color: var(--sub); font-size: 13px; margin-left: auto; }
+
+/* ---------- カード ---------- */
+.card {
+    background: var(--card); border: 2px solid var(--line); border-radius: 20px;
+    padding: 24px 28px; box-shadow: 0 6px 16px rgba(43,35,32,.05);
     margin-bottom: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
-header h1 { font-size: 26px; margin: 0; }
-header h1 a { color: #292929; text-decoration: none; }
-header p { margin-bottom: 0; color: #555; }
-nav.breadcrumb { font-size: 13px; margin-bottom: 12px; color: #555; }
-nav.breadcrumb a { color: #1769aa; }
-.category { color: #1769aa; font-size: 13px; font-weight: bold; }
-.card h2 { font-size: 22px; line-height: 1.5; margin-top: 0; }
+.lead { margin-top: 26px; }
+.lead p { margin: 0; }
+.lead p + p { margin-top: 12px; }
+.lead strong { color: var(--coral-dark); }
+.lead strong.t { color: var(--teal); }
+.card h2 { font-size: 24px; font-weight: 900; line-height: 1.5; margin: 8px 0 10px; }
 .card h3 {
-    font-size: 17px;
-    margin-top: 26px;
-    border-left: 4px solid #1769aa;
-    padding-left: 10px;
+    font-size: 17px; font-weight: 900; margin-top: 26px;
+    border-left: 6px solid var(--coral); border-radius: 3px; padding-left: 10px;
 }
 .card li { margin-bottom: 7px; }
+.category {
+    display: inline-block; background: var(--coral); color: #fff;
+    font-size: 12px; font-weight: 800; padding: 3px 13px;
+    border-radius: 999px; letter-spacing: .04em;
+}
 .note {
-    background: #f3f5f7;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 13px;
+    background: #fff6ef; border: 1px solid var(--line);
+    padding: 12px 14px; border-radius: 12px; font-size: 13px;
 }
+.table-note { margin-top: 12px; font-size: 12.5px; color: var(--sub); }
+
+/* ---------- パンくず ---------- */
+nav.breadcrumb { font-size: 13px; margin: 20px 0 12px; color: var(--sub); }
+nav.breadcrumb a { color: var(--coral-dark); }
+
+/* ---------- ボタン ---------- */
 .button {
-    display: block;
-    text-align: center;
-    background: #1769aa;
-    color: white;
-    padding: 15px 12px;
-    border-radius: 9px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 22px;
+    display: block; text-align: center;
+    background: linear-gradient(120deg, #ff5a3c, #ff8a3c);
+    color: #fff; padding: 15px 12px; border-radius: 999px;
+    text-decoration: none; font-weight: 900; letter-spacing: .03em;
+    margin-top: 22px; box-shadow: 0 8px 20px rgba(255,90,60,.30);
 }
-.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ---------- テーブル ---------- */
+.table-wrap {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    background: var(--card); border: 2px solid var(--line); border-radius: 20px;
+    box-shadow: 0 6px 16px rgba(43,35,32,.05);
+}
+.card .table-wrap { box-shadow: none; }
 table.compare, table.spec {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 14px;
-    line-height: 1.6;
+    border-collapse: collapse; width: 100%;
+    font-size: 14px; line-height: 1.7;
 }
+table.compare { min-width: 760px; }
 table.compare th, table.compare td,
 table.spec th, table.spec td {
-    border: 1px solid #dde3ea;
-    padding: 8px 10px;
-    text-align: left;
-    vertical-align: top;
+    padding: 12px 14px; text-align: left; vertical-align: top;
 }
 table.compare thead th {
-    background: #1769aa;
-    color: #fff;
-    white-space: nowrap;
+    background: #fff1e8; color: var(--coral-dark); font-weight: 800;
+    font-size: 13px; letter-spacing: .05em; white-space: nowrap;
+    border-bottom: 2px solid var(--line);
 }
-table.compare tbody th { background: #eef3f8; white-space: nowrap; }
-table.compare tbody th a { color: #1769aa; }
-table.spec th { background: #eef3f8; width: 34%; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.svc-card {
-    background: #fff;
-    border: 1px solid #e3e8ee;
-    border-radius: 12px;
-    padding: 16px;
+table.compare tbody th, table.compare tbody td { border-bottom: 2px dotted #f3e2d8; }
+table.compare tbody tr:last-child th, table.compare tbody tr:last-child td { border-bottom: none; }
+table.compare tbody tr:hover { background: #fffaf6; }
+table.compare tbody th { font-weight: 800; white-space: nowrap; }
+table.compare tbody th a { color: var(--ink); text-decoration: none; }
+table.compare tbody th a:hover { color: var(--coral-dark); }
+table.compare td.price { font-weight: 900; font-size: 17px; color: var(--coral-dark); white-space: nowrap; }
+.badge {
+    display: inline-block; margin-left: 8px; padding: 2px 11px; border-radius: 999px;
+    font-size: 11.5px; font-weight: 800; vertical-align: 2px; white-space: nowrap;
 }
-.svc-card h3 { margin: 0 0 6px; font-size: 17px; border: none; padding: 0; }
-.svc-card h3 a { color: #1769aa; text-decoration: none; }
-.svc-card p { margin: 4px 0; font-size: 14px; }
-.svc-card .price { font-size: 18px; font-weight: bold; color: #1769aa; }
-footer { color: #666; font-size: 12px; padding: 8px; }
-footer a { color: #1769aa; }
-@media (max-width: 480px) {
-    header, .card { padding: 18px; }
-    header h1 { font-size: 23px; }
-    .card h2 { font-size: 20px; }
-    .grid { grid-template-columns: 1fr; }
+.badge-cheap { background: var(--coral); color: #fff; }
+.badge-count { background: var(--teal); color: #fff; }
+table.spec th {
+    background: #fff1e8; color: var(--coral-dark);
+    width: 34%; font-weight: 800; border-bottom: 2px dotted #f3e2d8;
+}
+table.spec td { border-bottom: 2px dotted #f3e2d8; }
+table.spec tr:last-child th, table.spec tr:last-child td { border-bottom: none; }
+
+/* ---------- グリッドカード（目的別／サービス一覧） ---------- */
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cards .card { margin-bottom: 0; padding: 24px; }
+.card-tag {
+    display: inline-block; font-size: 12px; font-weight: 800; padding: 3px 13px;
+    border-radius: 999px; color: #fff; letter-spacing: .04em;
+}
+.tag-coral { background: var(--coral); }
+.tag-teal { background: var(--teal); }
+.tag-purple { background: var(--purple); }
+.tag-orange { background: var(--orange); color: #4a2c00; }
+.purpose-card h3, .svc-card h3 {
+    border: none; padding: 0; margin-top: 12px; font-size: 19px;
+}
+.purpose-card p { margin: 8px 0 0; font-size: 14px; }
+.purpose-card .svc-links { font-size: 13.5px; color: var(--sub); }
+.svc-card h3 { margin-top: 0; }
+.svc-card h3 a { color: var(--ink); text-decoration: none; }
+.svc-card h3 a:hover { color: var(--coral-dark); }
+.card-price { margin-top: 2px; font-size: 14px; color: var(--sub); }
+.card-price b { font-size: 21px; color: var(--coral-dark); }
+.svc-card p { margin: 8px 0 0; font-size: 14px; }
+.svc-card .meta { font-size: 13px; color: var(--sub); }
+.work-list { margin: 0; padding-left: 20px; }
+.work-list li { margin-bottom: 8px; }
+
+/* ---------- フッター ---------- */
+footer.site { margin-top: 56px; background: var(--ink); color: #e8ded9; }
+.foot-inner { padding: 26px 0 40px; font-size: 12.5px; }
+.foot-inner p { margin: 0; }
+.foot-inner p + p { margin-top: 8px; }
+.foot-inner a { color: #ffc4b2; }
+
+@media (max-width: 640px) {
+    body { font-size: 15px; }
+    .hero { padding: 28px 22px; }
+    .hero h1 { font-size: 27px; }
+    .hero.compact { padding: 18px 20px; }
+    .hero.compact h1 { font-size: 20px; }
+    .cards { grid-template-columns: 1fr; }
+    .sec-sub { display: none; }
+    .card { padding: 20px; }
+    .lead { padding: 20px; }
+    .card h2 { font-size: 21px; }
 }
 """
 
@@ -136,6 +223,24 @@ def render_page(title, description, path, body, structured=None, is_top=False):
     url = SITE_URL + path
     gsv = f'\n<meta name="google-site-verification" content="{GSV_META}" />' if is_top else ""
     ld = f"\n{json_ld(structured)}" if structured else ""
+    if is_top:
+        hero = f"""
+  <header class="hero">
+    <span class="hero-chip">アニメ見放題くらべ</span>
+    <h1>{SITE_NAME}</h1>
+    <p>{SITE_TAGLINE}</p>
+    <div class="hero-stats">
+      <span>最安は月額550円</span>
+      <span>作品数 最大7,400作品以上</span>
+      <span>無料期間 最大31日間</span>
+    </div>
+  </header>"""
+    else:
+        hero = f"""
+  <header class="hero compact">
+    <h1><a href="{SITE_URL}">{SITE_NAME}</a></h1>
+    <p>{SITE_TAGLINE}</p>
+  </header>"""
     return f"""<!doctype html>
 <html lang="ja">
 <head>
@@ -152,21 +257,17 @@ def render_page(title, description, path, body, structured=None, is_top=False):
 <style>{CSS}</style>
 </head>
 <body>
-<main>
-  <div class="pr-notice">
-    <strong>PR：</strong>当サイトはアフィリエイト広告を利用しています。
-  </div>
-  <header>
-    <h1><a href="{SITE_URL}">{SITE_NAME}</a></h1>
-    <p>{SITE_TAGLINE}</p>
-  </header>
+<div class="pr-bar"><strong>PR：</strong>当サイトはアフィリエイト広告を利用しています。</div>
+<main class="wrap">{hero}
 {body}
-  <footer>
+</main>
+<footer class="site">
+  <div class="wrap foot-inner">
     <p>※当サイトはアフィリエイト広告を利用しています。</p>
     <p>料金・作品数などの情報は{DATA_AS_OF}の各社公式発表に基づきます。最新情報は各サービスの公式サイトでご確認ください。</p>
     <p><a href="{SITE_URL}">トップ</a> ／ <a href="{SITE_URL}privacy/">プライバシーポリシー・広告について</a></p>
-  </footer>
-</main>
+  </div>
+</footer>
 </body>
 </html>
 """
@@ -196,38 +297,64 @@ def affiliate_button(service):
     )
 
 
+def sec_head(title, bar_class="", sub=""):
+    sub_html = f'<div class="sec-sub">{esc(sub)}</div>' if sub else ""
+    return (
+        f'<div class="sec-head"><div class="sec-bar {bar_class}"></div>'
+        f'<h2 class="sec-title">{esc(title)}</h2>{sub_html}</div>'
+    )
+
+
 # 目的別のおすすめ（事実ベースの編集セクション）
 PURPOSES = [
     {
+        "tag": "アニメだけを安く",
+        "tag_class": "tag-coral",
         "title": "アニメだけをとにかく安く見たい",
         "text": "月額が最安なのはDMM TVの550円（Web登録）。アニメ専門で作品数を求めるなら、7,400作品以上のdアニメストア（660円）が候補になります。",
         "slugs": ["dmm-tv", "d-anime-store"],
     },
     {
+        "tag": "まとめて見たい",
+        "tag_class": "tag-purple",
         "title": "アニメ以外もまとめて見たい",
         "text": "見放題作品数で選ぶならU-NEXT（44万本以上）。買い物などの特典も含めて考えたい場合は、プライム特典込みのAmazonプライム（月額600円）があります。",
         "slugs": ["u-next", "amazon-prime-video"],
     },
     {
+        "tag": "無料で試す",
+        "tag_class": "tag-teal",
         "title": "まず無料で試したい",
         "text": "無料期間が長いのはU-NEXTとdアニメストアの31日間、Amazonプライムの30日間。Netflix、Hulu、Disney+には現在無料トライアルがありません。",
         "slugs": ["u-next", "d-anime-store", "amazon-prime-video"],
     },
     {
+        "tag": "家族で使う",
+        "tag_class": "tag-orange",
         "title": "家族と分け合って同時視聴したい",
         "text": "同時視聴台数はU-NEXTとHuluが最大4台、Disney+はプレミアムプランで4台、Netflixはプレミアムで4台です。同一作品の同時視聴には制限があるサービスもあります。",
         "slugs": ["u-next", "hulu", "disney-plus"],
     },
 ]
 
+# 比較表のサービス名に付けるバッジ（slug -> (文言, クラス)）
+TABLE_BADGES = {
+    "dmm-tv": ("最安", "badge-cheap"),
+    "d-anime-store": ("作品数が多い", "badge-count"),
+}
+
 
 def build_top(services, works, by_slug):
     rows = []
     for s in services:
+        badge = ""
+        if s["slug"] in TABLE_BADGES:
+            label, cls = TABLE_BADGES[s["slug"]]
+            badge = f'<span class="badge {cls}">{label}</span>'
         rows.append(
             "<tr>"
-            f'<th><a href="{SITE_URL}service/{s["slug"]}/">{esc(s["name"])}</a></th>'
-            f"<td>{esc(s['price_monthly'])}</td>"
+            f'<th><a href="{SITE_URL}service/{s["slug"]}/">{esc(s["name"])}</a>{badge}</th>'
+            f'<td class="price">{esc(s["price_monthly"])}</td>'
             f"<td>{esc(s['free_trial'])}</td>"
             f"<td>{esc(s['anime_count'])}</td>"
             f"<td>{esc(s['simultaneous'])}</td>"
@@ -241,26 +368,31 @@ def build_top(services, works, by_slug):
         f"<tbody>{''.join(rows)}</tbody></table></div>"
     )
 
-    purpose_html = []
+    purpose_cards = []
     for p in PURPOSES:
         links = "、".join(
             f'<a href="{SITE_URL}service/{slug}/">{esc(by_slug[slug]["name"])}</a>'
             for slug in p["slugs"]
             if slug in by_slug
         )
-        purpose_html.append(
-            f"<h3>{esc(p['title'])}</h3><p>{esc(p['text'])}</p><p>該当サービス：{links}</p>"
+        purpose_cards.append(
+            '<article class="card purpose-card">'
+            f'<span class="card-tag {p["tag_class"]}">{esc(p["tag"])}</span>'
+            f"<h3>{esc(p['title'])}</h3>"
+            f"<p>{esc(p['text'])}</p>"
+            f'<p class="svc-links">該当サービス：{links}</p>'
+            "</article>"
         )
 
     cards = []
     for s in services:
         cards.append(
-            '<div class="svc-card">'
+            '<article class="card svc-card">'
             f'<h3><a href="{SITE_URL}service/{s["slug"]}/">{esc(s["name"])}</a></h3>'
-            f'<p class="price">月額{esc(s["price_monthly"])}</p>'
+            f'<p class="card-price">月額 <b>{esc(s["price_monthly"])}</b> ／ 無料期間 {esc(s["free_trial"])}</p>'
             f"<p>{esc(s['summary'])}</p>"
-            f"<p>無料期間：{esc(s['free_trial'])} ／ アニメ作品数：{esc(s['anime_count'])}</p>"
-            "</div>"
+            f'<p class="meta">アニメ作品数：{esc(s["anime_count"])}</p>'
+            "</article>"
         )
 
     works_section = ""
@@ -270,25 +402,30 @@ def build_top(services, works, by_slug):
             for w in works
         )
         works_section = f"""
-  <section class="card">
-    <h2>作品から探す</h2>
-    <ul>{items}</ul>
+  <section class="sec">
+    {sec_head("作品から探す", "purple")}
+    <div class="card">
+      <ul class="work-list">{items}</ul>
+    </div>
   </section>"""
 
     body = f"""
-  <section class="card">
-    <h2>アニメ見放題サービス 比較表</h2>
-    <p>主要8サービスの料金・無料期間・作品数を、各社の公式発表をもとに比較しました（{DATA_AS_OF}）。サービス名をタップすると個別ページで詳細を確認できます。</p>
+  <div class="card lead">
+    <p>アニメだけを安く見たいなら、月額<strong>550円</strong>のDMM TVか、作品数<strong>7,400作品以上</strong>のdアニメストア（<strong>660円</strong>）が軸になります。映画やドラマもまとめて見たいなら、見放題<strong class="t">440,000本以上</strong>のU-NEXT（<strong>2,189円</strong>）が候補です。</p>
+    <p>このページでは主要8サービスを、料金・無料期間・作品数といった同じ条件で並べました。数字はすべて各社の公式発表にもとづきます（{DATA_AS_OF}）。</p>
+  </div>
+  <section class="sec">
+    {sec_head("アニメ見放題サービス 比較表", "", "料金は税込")}
     {table}
-    <p class="note">料金は税込。月額料金は登録方法（Web／アプリ）で異なる場合があります。作品数が「非公表」のサービスは、公式に本数を発表していません。</p>
+    <p class="table-note">料金は税込。月額料金は登録方法（Web／アプリ）で異なる場合があります。作品数が「非公表」のサービスは、公式に本数を発表していません。</p>
   </section>
-  <section class="card">
-    <h2>目的別のおすすめ</h2>
-    {''.join(purpose_html)}
+  <section class="sec">
+    {sec_head("目的別のおすすめ", "teal", "迷ったらここから")}
+    <div class="cards">{''.join(purpose_cards)}</div>
   </section>
-  <section class="card">
-    <h2>サービス一覧</h2>
-    <div class="grid">{''.join(cards)}</div>
+  <section class="sec">
+    {sec_head("サービス一覧", "orange", "各サービスの詳細ページへ")}
+    <div class="cards">{''.join(cards)}</div>
   </section>{works_section}
 """
 
@@ -420,7 +557,7 @@ def build_work_page(w, by_slug):
         rows.append(
             "<tr>"
             f'<th><a href="{SITE_URL}service/{slug}/">{esc(s["name"])}</a></th>'
-            f"<td>月額{esc(s['price_monthly'])}</td>"
+            f'<td class="price">{esc(s["price_monthly"])}</td>'
             f"<td>{esc(s['free_trial'])}</td>"
             "</tr>"
         )
