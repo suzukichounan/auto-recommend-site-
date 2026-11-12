@@ -268,6 +268,8 @@ def render_page(title, description, path, body, structured=None, is_top=False):
     <p><a href="{SITE_URL}">トップ</a> ／ <a href="{SITE_URL}privacy/">プライバシーポリシー・広告について</a></p>
   </div>
 </footer>
+<script data-goatcounter="https://anime-memo-jp.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
 """

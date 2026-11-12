@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://suzukichounan.github.io/auto-recommend-site-/sitemap.xml
