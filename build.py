@@ -63,6 +63,8 @@ a { color: var(--coral-dark); }
 .hero.compact { padding: 22px 26px; border-radius: 24px; }
 .hero.compact h1 { font-size: 23px; margin: 0; }
 .hero.compact h1 a { color: #fff; text-decoration: none; }
+.hero .hero-brand { margin: 0 0 4px; font-size: 13px; font-weight: 700; }
+.hero .hero-brand a { color: #fff; text-decoration: none; opacity: .92; }
 .hero.compact p { margin-top: 4px; font-size: 13.5px; }
 
 /* ---------- セクション見出し ---------- */
@@ -218,11 +220,20 @@ def json_ld(data):
     return f'<script type="application/ld+json">{payload}</script>'
 
 
-def render_page(title, description, path, body, structured=None, is_top=False):
-    """共通レイアウトで1ページ分のHTMLを返す。path はサイトルート相対（末尾スラッシュ）。"""
+def render_page(title, description, path, body, structured=None, is_top=False, h1_text=None):
+    """共通レイアウトで1ページ分のHTMLを返す。path はサイトルート相対（末尾スラッシュ）。
+
+    h1_text を渡すと、compact ヒーローの h1 をサイト名ではなくその文言にし、
+    サイト名は小さなブランド表記に降格する（作品ページ用）。
+    """
     url = SITE_URL + path
     gsv = f'\n<meta name="google-site-verification" content="{GSV_META}" />' if is_top else ""
-    ld = f"\n{json_ld(structured)}" if structured else ""
+    if structured is None:
+        ld = ""
+    elif isinstance(structured, list):
+        ld = "".join(f"\n{json_ld(item)}" for item in structured)
+    else:
+        ld = f"\n{json_ld(structured)}"
     if is_top:
         hero = f"""
   <header class="hero">
@@ -234,6 +245,13 @@ def render_page(title, description, path, body, structured=None, is_top=False):
       <span>作品数 最大7,400作品以上</span>
       <span>無料期間 最大31日間</span>
     </div>
+  </header>"""
+    elif h1_text:
+        hero = f"""
+  <header class="hero compact">
+    <p class="hero-brand"><a href="{SITE_URL}">{SITE_NAME}</a></p>
+    <h1>{esc(h1_text)}</h1>
+    <p>{SITE_TAGLINE}</p>
   </header>"""
     else:
         hero = f"""
@@ -287,6 +305,21 @@ def breadcrumb(items):
     return f'<nav class="breadcrumb">{joined}</nav>'
 
 
+def breadcrumb_ld(items):
+    """items: [(label, url), ...] から BreadcrumbList 構造化データを作る。
+
+    表示側パンくず（breadcrumb()）と同じ階層・文言で渡すこと。
+    """
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": label, "item": url}
+            for i, (label, url) in enumerate(items)
+        ],
+    }
+
+
 def affiliate_button(service):
     """affiliate_url がある場合だけ申込ボタンを出す。"""
     url = str(service.get("affiliate_url", "")).strip()
@@ -304,6 +337,21 @@ def sec_head(title, bar_class="", sub=""):
     return (
         f'<div class="sec-head"><div class="sec-bar {bar_class}"></div>'
         f'<h2 class="sec-title">{esc(title)}</h2>{sub_html}</div>'
+    )
+
+
+# note「アニメ配信メモ」の記事（サイトからの導線用）
+NOTE_ARTICLES = {
+    "conclusion": "https://note.com/anime_memo_jp/n/n5d725a594e44",  # 8社比較の結論記事
+    "season": "https://note.com/anime_memo_jp/n/n29f79f8250e4",  # 今期アニメ見放題先まとめ
+    "practice": "https://note.com/anime_memo_jp/n/n3cdc71ae8e45",  # 導線設計の実践記録
+}
+
+
+def note_link(url, label):
+    return (
+        f'<p class="note">{label}'
+        f'<a href="{esc(url)}" target="_blank" rel="noopener">noteで読む →</a></p>'
     )
 
 
@@ -408,6 +456,7 @@ def build_top(services, works, by_slug):
     {sec_head("作品から探す", "purple")}
     <div class="card">
       <ul class="work-list">{items}</ul>
+      {note_link(NOTE_ARTICLES["season"], "今期（2026年秋）アニメの見放題先は、noteの記事でも10作品まとめて紹介しています。")}
     </div>
   </section>"""
 
@@ -420,6 +469,7 @@ def build_top(services, works, by_slug):
     {sec_head("アニメ見放題サービス 比較表", "", "料金は税込")}
     {table}
     <p class="table-note">料金は税込。月額料金は登録方法（Web／アプリ）で異なる場合があります。作品数が「非公表」のサービスは、公式に本数を発表していません。</p>
+    {note_link(NOTE_ARTICLES["conclusion"], "この8社比較の結論は、noteの記事でもまとめています。")}
   </section>
   <section class="sec">
     {sec_head("目的別のおすすめ", "teal", "迷ったらここから")}
@@ -429,9 +479,14 @@ def build_top(services, works, by_slug):
     {sec_head("サービス一覧", "orange", "各サービスの詳細ページへ")}
     <div class="cards">{''.join(cards)}</div>
   </section>{works_section}
+  <section class="sec">
+    <div class="card">
+      {note_link(NOTE_ARTICLES["practice"], "このサイトの運営記録は、noteの記事「フォロワー0、完全な無名。寝てる間に収益が出る仕組み」に書いています。")}
+    </div>
+  </section>
 """
 
-    structured = {
+    item_list = {
         "@context": "https://schema.org",
         "@type": "ItemList",
         "name": "アニメ見放題サービス比較一覧",
@@ -445,6 +500,7 @@ def build_top(services, works, by_slug):
             for i, s in enumerate(services)
         ],
     }
+    structured = [item_list, breadcrumb_ld([("トップ", SITE_URL)])]
     return render_page(
         f"{SITE_NAME}｜アニメ見放題サービスの料金・作品数を比較",
         "DMM TV、dアニメストア、U-NEXTなど主要8つのアニメ見放題サービスを、月額料金・無料期間・アニメ作品数・同時視聴台数で比較。事実データのみで選べます。",
@@ -455,7 +511,7 @@ def build_top(services, works, by_slug):
     )
 
 
-def build_service_page(s, services):
+def build_service_page(s, services, works):
     plans_rows = "".join(
         f"<tr><th>{esc(p['name'])}</th><td>月額{esc(yen(p['price']))}（税込）</td></tr>"
         for p in s.get("plans", [])
@@ -477,6 +533,21 @@ def build_service_page(s, services):
         for o in others
     )
 
+    # このサービスで見放題の作品（当サイトに作品ページがあるものだけ）
+    available = [w for w in works if s["slug"] in w.get("services", [])]
+    works_section = ""
+    if available:
+        items = "".join(
+            f'<li><a href="{SITE_URL}work/{w["slug"]}/">{esc(w["title"])}はどこで見れる？</a></li>'
+            for w in available
+        )
+        works_section = f"""
+  <section class="card">
+    <h2>このサービスで見放題の作品</h2>
+    <ul class="work-list">{items}</ul>
+    <p class="table-note">当サイトで配信情報を掲載している作品のみを表示しています（全作品ではありません）。</p>
+  </section>"""
+
     body = f"""
   {breadcrumb([("トップ", SITE_URL), (s['name'], None)])}
   <article class="card">
@@ -493,15 +564,16 @@ def build_service_page(s, services):
     <h3>注意点</h3>
     <ul>{cautions}</ul>
     {affiliate_button(s)}
-  </article>
+  </article>{works_section}
   <section class="card">
     <h2>ほかのサービスと比較する</h2>
     <p>{others_links}</p>
+    {note_link(NOTE_ARTICLES["conclusion"], "主要8サービスの比較の結論は、noteの記事でもまとめています。")}
     <p><a href="{SITE_URL}">トップの比較表に戻る</a></p>
   </section>
 """
 
-    structured = {
+    product = {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": s["name"],
@@ -513,6 +585,10 @@ def build_service_page(s, services):
             "price": s["price_from"],
         },
     }
+    structured = [
+        product,
+        breadcrumb_ld([("トップ", SITE_URL), (s["name"], f"{SITE_URL}service/{s['slug']}/")]),
+    ]
     return render_page(
         f"{s['name']}の料金・作品数・無料期間｜{SITE_NAME}",
         f"{s['name']}の月額料金（{s['price_monthly']}）、無料期間（{s['free_trial']}）、アニメ作品数（{s['anime_count']}）を公式発表ベースでまとめました。強みと注意点も確認できます。",
@@ -545,10 +621,13 @@ def build_privacy_page():
         "当サイトのアフィリエイト広告の利用、掲載情報の出典、個人情報の取り扱いについて説明します。",
         "privacy/",
         body,
+        structured=breadcrumb_ld(
+            [("トップ", SITE_URL), ("プライバシーポリシー・広告について", f"{SITE_URL}privacy/")]
+        ),
     )
 
 
-def build_work_page(w, by_slug):
+def build_work_page(w, by_slug, works):
     """works.json の1作品分のページ。w: slug, title, services(配信中slug配列), note"""
     rows = []
     buttons = []
@@ -568,11 +647,55 @@ def build_work_page(w, by_slug):
             buttons.append(btn)
     note = w.get("note", "")
     note_html = f'<p class="note">{esc(note)}</p>' if note else ""
+
+    # FAQ: 掲載データ（見放題の有無・各社の無料期間）から機械的に組み立てる。
+    # 未検証のサービスについては「確認できていません」と明記し、断定しない。
+    streamers = [by_slug[slug] for slug in w.get("services", []) if slug in by_slug]
+    names = "、".join(s["name"] for s in streamers)
+    trials = "、".join(f'{s["name"]}（無料期間：{s["free_trial"]}）' for s in streamers)
+    faq_items = [
+        (
+            f"「{w['title']}」を無料で見る方法はありますか？",
+            f"見放題で配信している{names}には、いずれも無料トライアルがあります（{trials}）。"
+            "トライアル期間中は月額料金なしで見放題で視聴できます。",
+        ),
+        (
+            f"「{w['title']}」はNetflixやAmazonプライム・ビデオで見れますか？",
+            f"当サイトが各サービスの公式情報で確認した範囲では、「{w['title']}」の見放題配信は{names}です。"
+            f"NetflixとAmazonプライム・ビデオでの見放題配信は確認できていません（{DATA_AS_OF}）。",
+        ),
+        (
+            f"「{w['title']}」をレンタル・購入して見ることはできますか？",
+            "レンタル・購入（都度課金）の取り扱いはサービスごとに異なります。"
+            "DMM TVやU-NEXTはレンタル作品も取り扱っているため、各サービスの作品ページでこの作品のレンタル可否をご確認ください。"
+            "このページの表は見放題の配信状況です。",
+        ),
+    ]
+    faq_html = "".join(
+        f"<h3>Q. {esc(q)}</h3><p>{esc(a)}</p>" for q, a in faq_items
+    )
+
+    # 関連作品: 同じシーズンの作品を優先し、最大4件
+    related = [o for o in works if o["slug"] != w["slug"]]
+    related.sort(key=lambda o: 0 if o.get("season") == w.get("season") else 1)
+    related = related[:4]
+    related_html = ""
+    if related:
+        items = "".join(
+            f'<li><a href="{SITE_URL}work/{o["slug"]}/">「{esc(o["title"])}」はどこで見れる？</a></li>'
+            for o in related
+        )
+        related_html = f"""
+  <section class="card">
+    <h2>ほかの作品の配信情報</h2>
+    <ul class="work-list">{items}</ul>
+  </section>"""
+
     body = f"""
   {breadcrumb([("トップ", SITE_URL), (f"「{w['title']}」はどこで見れる？", None)])}
   <article class="card">
     <p class="category">作品の配信情報</p>
-    <h2>「{esc(w['title'])}」はどこで見れる？</h2>
+    <h2>見放題で配信しているサービス</h2>
     <p>「{esc(w['title'])}」を見放題で配信しているサービスは以下のとおりです（{DATA_AS_OF}）。</p>
     <div class="table-wrap"><table class="compare">
       <thead><tr><th>サービス</th><th>月額料金（税込）</th><th>無料期間</th></tr></thead>
@@ -581,12 +704,35 @@ def build_work_page(w, by_slug):
     {note_html}
     {''.join(buttons)}
   </article>
+  <section class="sec">
+    {sec_head("よくある質問", "teal")}
+    <div class="card">{faq_html}</div>
+  </section>{related_html}
 """
+    structured = [
+        breadcrumb_ld(
+            [("トップ", SITE_URL), (f"「{w['title']}」はどこで見れる？", f"{SITE_URL}work/{w['slug']}/")]
+        ),
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": q,
+                    "acceptedAnswer": {"@type": "Answer", "text": a},
+                }
+                for q, a in faq_items
+            ],
+        },
+    ]
     return render_page(
         f"「{w['title']}」はどこで見れる？配信サービスまとめ｜{SITE_NAME}",
         f"アニメ「{w['title']}」を見放題で配信しているサービスをまとめました。各サービスの月額料金と無料期間もあわせて確認できます。",
         f"work/{w['slug']}/",
         body,
+        structured=structured,
+        h1_text=f"「{w['title']}」はどこで見れる？",
     )
 
 
@@ -603,10 +749,10 @@ def main():
 
     pages.append(("", build_top(services, works, by_slug)))
     for s in services:
-        pages.append((f"service/{s['slug']}/", build_service_page(s, services)))
+        pages.append((f"service/{s['slug']}/", build_service_page(s, services, works)))
     pages.append(("privacy/", build_privacy_page()))
     for w in works:
-        pages.append((f"work/{w['slug']}/", build_work_page(w, by_slug)))
+        pages.append((f"work/{w['slug']}/", build_work_page(w, by_slug, works)))
 
     for path, page_html in pages:
         if path == "":
