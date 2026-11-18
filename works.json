@@ -8,12 +8,22 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "netflix",
+      "hulu",
+      "disney-plus",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり",
+      "amazon-prime-video": "見放題あり",
+      "netflix": "見放題あり",
+      "hulu": "見放題あり",
+      "disney-plus": "見放題あり",
+      "abema-premium": "見放題あり"
     },
     "slug": "kusuriya-no-hitorigoto-3",
     "sources": [
@@ -23,7 +33,7 @@
     "title": "薬屋のひとりごと 第3期"
   },
   {
-    "note": "U-NEXTなどでは10月4日から先行配信。DMM TV・dアニメストアは10月8日正午から見放題配信。",
+    "note": "U-NEXTなどでは10月4日から先行配信。DMM TV・dアニメストアは10月8日正午から見放題配信。Netflixでは2nd Seasonの配信はありません（第1期・映画『魔法帝の剣』はNetflixで見放題）。",
     "season": "2026年秋",
     "service_urls": {
       "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=29275",
@@ -32,12 +42,21 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "hulu",
+      "disney-plus",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり（先行配信）"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり（先行配信）",
+      "amazon-prime-video": "見放題あり（レンタル併設）",
+      "netflix": "配信なし",
+      "hulu": "見放題あり",
+      "disney-plus": "見放題あり",
+      "abema-premium": "見放題あり（無料見逃しあり）"
     },
     "slug": "black-clover-2nd-season",
     "sources": [
@@ -55,16 +74,27 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "netflix",
+      "hulu",
+      "disney-plus",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり",
+      "amazon-prime-video": "見放題あり（レンタル併設）",
+      "netflix": "見放題あり",
+      "hulu": "見放題あり",
+      "disney-plus": "見放題あり",
+      "abema-premium": "見放題あり（無料見逃しあり）"
     },
     "slug": "ao-no-hako-2",
     "sources": [
-      "https://aonohako-anime.com/"
+      "https://aonohako-anime.com/",
+      "https://www.pashplus.jp/anime/502831/ （公式発表の配信情報一覧の転載）"
     ],
     "title": "アオのハコ Season2"
   },
@@ -78,12 +108,22 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "netflix",
+      "hulu",
+      "disney-plus",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり（最速配信）"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり（最速配信）",
+      "amazon-prime-video": "見放題あり",
+      "netflix": "見放題あり",
+      "hulu": "見放題あり",
+      "disney-plus": "見放題あり",
+      "abema-premium": "見放題あり（無料見逃しあり）"
     },
     "slug": "dragon-ball-super-beerus",
     "sources": [
@@ -93,7 +133,7 @@
     "title": "ドラゴンボール超 ビルス"
   },
   {
-    "note": "2026年10月8日より、毎週木曜0時15分から各サービスで順次配信。",
+    "note": "2026年10月8日より、毎週木曜0時15分から各サービスで順次配信。Netflix・Disney+での配信は2026年11月18日時点で確認できていません。ABEMAでは最新話のみ放送から1週間無料で視聴できます。",
     "season": "2026年秋",
     "service_urls": {
       "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=29212",
@@ -102,12 +142,19 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "hulu"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり",
+      "amazon-prime-video": "見放題あり（レンタル併設）",
+      "netflix": "配信なし",
+      "hulu": "見放題あり",
+      "disney-plus": "配信なし",
+      "abema-premium": "無料見逃しあり"
     },
     "slug": "magic-knight-rayearth-2026",
     "sources": [
@@ -125,12 +172,22 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "netflix",
+      "hulu",
+      "disney-plus",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり（最速配信）",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり（最速配信）"
+      "d-anime-store": "見放題あり（最速配信）",
+      "u-next": "見放題あり（最速配信）",
+      "amazon-prime-video": "見放題あり（レンタル併設）",
+      "netflix": "見放題あり",
+      "hulu": "見放題あり",
+      "disney-plus": "見放題あり",
+      "abema-premium": "見放題あり（無料見逃しあり）"
     },
     "slug": "tougen-anki-2",
     "sources": [
@@ -139,18 +196,27 @@
     "title": "桃源暗鬼 第二期 ～日光・華厳の滝編～"
   },
   {
-    "note": "U-NEXTは毎週日曜23時から最速配信。DMM TV・dアニメストアは毎週木曜19時30分から順次配信。",
+    "note": "U-NEXTは毎週日曜23時から最速配信。DMM TV・dアニメストアは毎週木曜19時30分から順次配信。放送済み話数のみ順次配信されます。",
     "season": "2026年秋",
     "service_urls": {},
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "netflix",
+      "hulu",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり（最速配信）"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり（最速配信）",
+      "amazon-prime-video": "見放題あり（レンタル併設）",
+      "netflix": "見放題あり",
+      "hulu": "見放題あり",
+      "disney-plus": "配信なし",
+      "abema-premium": "見放題あり（無料見逃しあり）"
     },
     "slug": "aoashi-2",
     "sources": [
@@ -159,7 +225,7 @@
     "title": "アオアシ Season2"
   },
   {
-    "note": "Season 1からThe Final Season 完結編まで、シリーズ全作が見放題対象です。",
+    "note": "Season 1からThe Final Season 完結編まで、シリーズ全作が見放題対象です。Disney+はSeason 1〜The Final Season Part1までの見放題を確認（完結編は2026年11月時点で未確認）。ABEMAプレミアムは完結編（各話版）の配信を確認（Season 1〜3の範囲は要確認）。",
     "season": "歴代（2013年〜）",
     "service_urls": {
       "d-anime-store": "https://animestore.docomo.ne.jp/animestore/ci_pc?workId=10811",
@@ -168,12 +234,22 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "netflix",
+      "hulu",
+      "disney-plus",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり",
+      "amazon-prime-video": "見放題あり",
+      "netflix": "見放題あり",
+      "hulu": "見放題あり",
+      "disney-plus": "見放題あり（一部シーズンのみ）",
+      "abema-premium": "見放題あり（一部シーズンのみ）"
     },
     "slug": "shingeki-no-kyojin",
     "sources": [
@@ -192,12 +268,22 @@
     "services": [
       "dmm-tv",
       "d-anime-store",
-      "u-next"
+      "u-next",
+      "amazon-prime-video",
+      "netflix",
+      "hulu",
+      "disney-plus",
+      "abema-premium"
     ],
     "services_status": {
-      "d-anime-store": "見放題あり",
       "dmm-tv": "見放題あり",
-      "u-next": "見放題あり"
+      "d-anime-store": "見放題あり",
+      "u-next": "見放題あり",
+      "amazon-prime-video": "見放題あり",
+      "netflix": "見放題あり",
+      "hulu": "見放題あり",
+      "disney-plus": "見放題あり",
+      "abema-premium": "見放題あり"
     },
     "slug": "kimetsu-no-yaiba",
     "sources": [

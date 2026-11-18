@@ -13,6 +13,8 @@ SITE_NAME = "サブスク多すぎて選べないからアニメ特化で見る�
 SITE_TAGLINE = "アニメ見放題サービスの料金・作品数・無料期間を事実データで比較します。"
 GSV_META = "WrZyRp8m3nz5I-GorXWoi-pEZGwUzyVIQ-wghxEcWSU"
 DATA_AS_OF = "2026年11月4日時点"  # services.json の調査日
+WORKS_DATA_AS_OF = "2026年11月18日時点"  # works.json の8社配信状況の調査日
+WORKS_DATA_MONTH = "2026年11月時点"  # 配信状況の未確認を表すときの月単位の表記
 
 # デザイン: E案「ライトポップ」（白基調＋コーラル×オレンジのグラデーション、
 # 丸角カード、ピル型バッジ）。design-mockups/v2/design-e-light-pop.html が正。
@@ -627,19 +629,58 @@ def build_privacy_page():
     )
 
 
-def build_work_page(w, by_slug, works):
-    """works.json の1作品分のページ。w: slug, title, services(配信中slug配列), note"""
+def _status_of(w, slug):
+    """works.json の services_status から1サービスの配信状況文字列を返す。"""
+    return str(w.get("services_status", {}).get(slug, ""))
+
+
+def _is_svod(status):
+    return status.startswith("見放題あり")
+
+
+def _has_rental(status):
+    return "レンタル" in status
+
+
+def _has_free_catchup(status):
+    return "無料見逃し" in status
+
+
+def _is_unavailable(status):
+    return "配信なし" in status
+
+
+def _svc_sentence(w, by_slug, slug):
+    """1サービスの配信状況を、FAQ回答用の1文にする。"""
+    s = by_slug[slug]
+    status = _status_of(w, slug)
+    if _is_svod(status):
+        return f"{s['name']}では見放題で配信しています。"
+    if "レンタルのみ" in status:
+        return f"{s['name']}では見放題ではなく、レンタル（都度課金）での取り扱いです。"
+    if _has_free_catchup(status):
+        return f"{s['name']}では見放題の取り扱いは確認できていません。無料プランでの見逃し配信があります。"
+    if _is_unavailable(status):
+        return f"{s['name']}では配信していません（{WORKS_DATA_AS_OF}）。"
+    return f"{s['name']}での見放題配信は確認できていません（{WORKS_DATA_MONTH}）"
+
+
+def build_work_page(w, by_slug, works, services):
+    """works.json の1作品分のページ。w: slug, title, services(見放題slug配列),
+    services_status(8社分の配信状況), note。表は8社すべてを表示する。"""
     rows = []
     buttons = []
-    for slug in w.get("services", []):
-        s = by_slug.get(slug)
-        if not s:
-            continue
+    for s in services:
+        slug = s["slug"]
+        status = _status_of(w, slug)
+        if not status:
+            status = f"見放題配信は確認できていません（{WORKS_DATA_MONTH}）"
         rows.append(
             "<tr>"
             f'<th><a href="{SITE_URL}service/{slug}/">{esc(s["name"])}</a></th>'
             f'<td class="price">{esc(s["price_monthly"])}</td>'
             f"<td>{esc(s['free_trial'])}</td>"
+            f"<td>{esc(status)}</td>"
             "</tr>"
         )
         btn = affiliate_button(s)
@@ -648,27 +689,84 @@ def build_work_page(w, by_slug, works):
     note = w.get("note", "")
     note_html = f'<p class="note">{esc(note)}</p>' if note else ""
 
-    # FAQ: 掲載データ（見放題の有無・各社の無料期間）から機械的に組み立てる。
+    # FAQ: 掲載データ（8社の配信状況・各社の無料期間）から機械的に組み立てる。
     # 未検証のサービスについては「確認できていません」と明記し、断定しない。
     streamers = [by_slug[slug] for slug in w.get("services", []) if slug in by_slug]
     names = "、".join(s["name"] for s in streamers)
-    trials = "、".join(f'{s["name"]}（無料期間：{s["free_trial"]}）' for s in streamers)
+    trial_svcs = [
+        s
+        for s in streamers
+        if not str(s["free_trial"]).startswith(("なし", "未確認"))
+    ]
+    no_trial_svcs = [
+        s for s in streamers if str(s["free_trial"]).startswith("なし")
+    ]
+    unknown_trial_svcs = [
+        s for s in streamers if str(s["free_trial"]).startswith("未確認")
+    ]
+    if trial_svcs:
+        t_names = "、".join(s["name"] for s in trial_svcs)
+        t_trials = "、".join(
+            f'{s["name"]}（無料期間：{s["free_trial"]}）' for s in trial_svcs
+        )
+        q1_a = (
+            f"見放題で配信しているサービスのうち、{t_names}には無料トライアルがあります（{t_trials}）。"
+            "トライアル期間中は月額料金なしで見放題で視聴できます。"
+        )
+    else:
+        q1_a = f"見放題で配信している{names}には、現在無料トライアルがありません。"
+    if no_trial_svcs:
+        q1_a += (
+            f"{'、'.join(s['name'] for s in no_trial_svcs)}には現在無料トライアルがありません。"
+        )
+    if unknown_trial_svcs:
+        q1_a += (
+            f"{'、'.join(s['name'] for s in unknown_trial_svcs)}"
+            "の無料トライアルの有無は公式に明記されていません。"
+        )
+    free_catchup_names = [
+        s["name"] for s in services if _has_free_catchup(_status_of(w, s["slug"]))
+    ]
+    if free_catchup_names:
+        q1_a += (
+            f"また、{'、'.join(free_catchup_names)}では最新話を放送から1週間無料で視聴できます（無料プラン）。"
+        )
+    q2_a = _svc_sentence(w, by_slug, "netflix") + _svc_sentence(w, by_slug, "amazon-prime-video")
+    q3_a = "".join(
+        _svc_sentence(w, by_slug, slug) for slug in ("hulu", "disney-plus", "abema-premium")
+    )
+    rental_names = [
+        s["name"] for s in services if _has_rental(_status_of(w, s["slug"]))
+    ]
+    if rental_names:
+        q4_a = (
+            f"{'、'.join(rental_names)}では、この作品のレンタル（都度課金）も取り扱っています"
+            "（見放題と併設の場合があります）。"
+            "DMM TVやU-NEXTはレンタル作品も取り扱っているため、各サービスの作品ページでこの作品のレンタル可否をご確認ください。"
+            "このページの表は見放題・レンタル・無料見逃しの配信状況です。"
+        )
+    else:
+        q4_a = (
+            "レンタル・購入（都度課金）の取り扱いはサービスごとに異なります。"
+            "DMM TVやU-NEXTはレンタル作品も取り扱っているため、各サービスの作品ページでこの作品のレンタル可否をご確認ください。"
+            "このページの表は見放題・レンタル・無料見逃しの配信状況です。"
+        )
     faq_items = [
         (
             f"「{w['title']}」を無料で見る方法はありますか？",
-            f"見放題で配信している{names}には、いずれも無料トライアルがあります（{trials}）。"
-            "トライアル期間中は月額料金なしで見放題で視聴できます。",
+            q1_a,
         ),
         (
             f"「{w['title']}」はNetflixやAmazonプライム・ビデオで見れますか？",
-            f"当サイトが各サービスの公式情報で確認した範囲では、「{w['title']}」の見放題配信は{names}です。"
-            f"NetflixとAmazonプライム・ビデオでの見放題配信は確認できていません（{DATA_AS_OF}）。",
+            q2_a,
+        ),
+        (
+            f"「{w['title']}」はHulu・Disney+・ABEMAプレミアムで見れますか？",
+            q3_a,
         ),
         (
             f"「{w['title']}」をレンタル・購入して見ることはできますか？",
-            "レンタル・購入（都度課金）の取り扱いはサービスごとに異なります。"
-            "DMM TVやU-NEXTはレンタル作品も取り扱っているため、各サービスの作品ページでこの作品のレンタル可否をご確認ください。"
-            "このページの表は見放題の配信状況です。",
+            q4_a,
         ),
     ]
     faq_html = "".join(
@@ -695,10 +793,10 @@ def build_work_page(w, by_slug, works):
   {breadcrumb([("トップ", SITE_URL), (f"「{w['title']}」はどこで見れる？", None)])}
   <article class="card">
     <p class="category">作品の配信情報</p>
-    <h2>見放題で配信しているサービス</h2>
-    <p>「{esc(w['title'])}」を見放題で配信しているサービスは以下のとおりです（{DATA_AS_OF}）。</p>
+    <h2>配信状況</h2>
+    <p>「{esc(w['title'])}」の配信状況は以下のとおりです（{WORKS_DATA_AS_OF}）。見放題・レンタル・無料見逃しの区別もあわせて確認できます。</p>
     <div class="table-wrap"><table class="compare">
-      <thead><tr><th>サービス</th><th>月額料金（税込）</th><th>無料期間</th></tr></thead>
+      <thead><tr><th>サービス</th><th>月額料金（税込）</th><th>無料期間</th><th>配信状況</th></tr></thead>
       <tbody>{''.join(rows)}</tbody>
     </table></div>
     {note_html}
@@ -752,7 +850,7 @@ def main():
         pages.append((f"service/{s['slug']}/", build_service_page(s, services, works)))
     pages.append(("privacy/", build_privacy_page()))
     for w in works:
-        pages.append((f"work/{w['slug']}/", build_work_page(w, by_slug, works)))
+        pages.append((f"work/{w['slug']}/", build_work_page(w, by_slug, works, services)))
 
     for path, page_html in pages:
         if path == "":
